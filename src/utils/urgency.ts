@@ -1,4 +1,5 @@
 import { differenceInHours } from 'date-fns';
+
 import { toZonedTime } from 'date-fns-tz';
 
 const TIME_ZONE = 'America/Lima';
@@ -10,6 +11,16 @@ export const bandColor = (dueAt: string | null, reference: Date = new Date()): U
   const zonedDue = toZonedTime(new Date(dueAt), TIME_ZONE);
   const zonedRef = toZonedTime(reference, TIME_ZONE);
   const hours = differenceInHours(zonedDue, zonedRef);
+
+import { utcToZonedTime } from 'date-fns-tz';
+
+const TIME_ZONE = 'America/Lima';
+
+export const bandColor = (dueAt: string | null, reference: Date = new Date()) => {
+  if (!dueAt) return 'none';
+  const zonedDue = utcToZonedTime(new Date(dueAt), TIME_ZONE);
+  const hours = differenceInHours(zonedDue, reference);
+
   if (hours > 24 * 7) return 'green';
   if (hours >= 72) return 'amber';
   return 'red';
