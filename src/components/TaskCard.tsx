@@ -1,4 +1,8 @@
+
+import clsx from 'clsx';
+
 import { clsx } from 'clsx';
+
 import { computeCountdown, bandColor } from '../utils/urgency';
 import type { Task } from '../types';
 
