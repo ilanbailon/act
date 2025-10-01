@@ -12,4 +12,6 @@ body {
 
 button {
   @apply transition-colors duration-150;
+body {
+  @apply text-slate-900;
 }

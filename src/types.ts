@@ -1,5 +1,7 @@
 export type TaskStatus = "todo" | "doing" | "done" | "blocked";
 export type TaskType = "quick" | "normal";
+export type TaskType = 'quick' | 'normal';
+export type TaskStatus = 'todo' | 'doing' | 'done' | 'blocked';
 
 export interface Task {
   id: string;
@@ -32,3 +34,4 @@ export interface TaskPayload {
   scheduled_date?: string | null;
   progress?: number;
 }
+export type TaskInsert = Omit<Task, 'id' | 'created_at' | 'updated_at'>;
