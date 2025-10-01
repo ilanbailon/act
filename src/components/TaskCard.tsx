@@ -1,9 +1,13 @@
 
+import { computeCountdown, bandColor, type UrgencyBand } from '../utils/urgency';
+
+
 import clsx from 'clsx';
 
 import { clsx } from 'clsx';
 
 import { computeCountdown, bandColor } from '../utils/urgency';
+
 import type { Task } from '../types';
 
 interface TaskCardProps {
@@ -13,7 +17,11 @@ interface TaskCardProps {
   onEdit: (task: Task) => void;
 }
 
+
+const bandClasses: Record<UrgencyBand, string> = {
+
 const bandClasses: Record<string, string> = {
+
   none: 'bg-slate-200',
   green: 'bg-emerald-400',
   amber: 'bg-amber-400',
@@ -22,6 +30,10 @@ const bandClasses: Record<string, string> = {
 
 const TaskCard: React.FC<TaskCardProps> = ({ task, onMarkDone, onChangeStatus, onEdit }) => {
   const band = bandColor(task.due_at, new Date());
+
+  const bandClass = bandClasses[band];
+
+
   const countdown = computeCountdown(task.due_at, new Date());
 
   return (
@@ -31,7 +43,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onMarkDone, onChangeStatus, o
           <h3 className="font-semibold text-slate-800">{task.title}</h3>
           {task.project && <p className="text-xs text-slate-500">{task.project}</p>}
         </div>
+
+        <span className={`h-2 w-16 rounded-full ${bandClass}`} aria-hidden />
+
         <span className={clsx('h-2 w-16 rounded-full', bandClasses[band])} aria-hidden />
+
       </div>
       <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
         <span className="rounded bg-slate-100 px-2 py-1">Estado: {task.status}</span>
