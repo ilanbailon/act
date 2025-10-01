@@ -1,3 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2563eb" />
+    <title>Task Planner</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/icon-192.svg" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./js/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app hidden">
+      <header class="app__header">
+        <h1 class="app__title">Task Planner</h1>
+        <div class="app__status" id="session-info"></div>
+      </header>
+
+      <nav class="tabs hidden" id="view-tabs" aria-label="Secciones">
+        <button class="tabs__button tabs__button--active" data-view="today">Hoy</button>
+        <button class="tabs__button" data-view="week">Semana</button>
+        <button class="tabs__button" data-view="all">Todas</button>
+      </nav>
+
+      <main id="view-container" class="view" aria-live="polite">
+        <p class="muted">Cargando...</p>
+      </main>
+    </div>
+
+    <section id="auth-panel" class="panel hidden" aria-live="polite">
+      <h2>Ingresa a tu cuenta</h2>
+      <form id="auth-login" class="form">
+        <label>
+          Correo electrónico
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <label>
+          Contraseña
+          <input type="password" name="password" autocomplete="current-password" required />
+        </label>
+        <button type="submit" class="button">Entrar</button>
+      </form>
+      <form id="auth-register" class="form">
+        <h3>¿Aún no tienes cuenta?</h3>
+        <label>
+          Correo electrónico
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <label>
+          Contraseña
+          <input type="password" name="password" autocomplete="new-password" minlength="6" required />
+        </label>
+        <button type="submit" class="button button--ghost">Crear cuenta</button>
+      </form>
+      <form id="auth-magic" class="form">
+        <h3>Enviarme enlace mágico</h3>
+        <label>
+          Correo electrónico
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <button type="submit" class="button button--ghost">Enviar enlace</button>
+      </form>
+    </section>
+
+    <section id="offline-banner" class="offline hidden" role="status">
+      <strong>Sin conexión.</strong> La aplicación está en modo solo lectura.
+    </section>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="assertive"></div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal__content">
+        <header class="modal__header">
+          <h2 id="modal-title">Tarea</h2>
+          <button type="button" id="modal-close" class="modal__close" aria-label="Cerrar">×</button>
+        </header>
+        <form id="task-form" class="form form--grid">
+          <input type="hidden" name="id" />
+          <label>
+            Título
+            <input type="text" name="title" required />
+          </label>
+          <label>
+            Proyecto
+            <input type="text" name="project" placeholder="General" />
+          </label>
+          <label>
+            Nota
+            <textarea name="note" rows="3" placeholder="Detalles"></textarea>
+          </label>
+          <label>
+            Tipo
+            <select name="type">
+              <option value="quick">Quick</option>
+              <option value="normal">Normal</option>
+            </select>
+          </label>
+          <label>
+            Estado
+            <select name="status">
+              <option value="todo">Por hacer</option>
+              <option value="doing">En progreso</option>
+              <option value="done">Completa</option>
+              <option value="blocked">Bloqueada</option>
+            </select>
+          </label>
+          <label>
+            Prioridad
+            <select name="priority">
+              <option value="2">Alta</option>
+              <option value="1">Media</option>
+              <option value="0">Baja</option>
+            </select>
+          </label>
+          <label>
+            Bloques estimados
+            <input type="number" name="estimate_blocks" min="0" step="1" value="0" />
+          </label>
+          <label>
+            Progreso (%)
+            <input type="number" name="progress" min="0" max="100" step="1" value="0" />
+          </label>
+          <label>
+            Fecha objetivo
+            <input type="date" name="target_date" />
+          </label>
+          <label>
+            Fecha programada
+            <input type="date" name="scheduled_date" />
+          </label>
+          <label>
+            Vence el
+            <input type="datetime-local" name="due_at" />
+          </label>
+          <footer class="modal__footer">
+            <button type="button" id="task-delete" class="button button--danger hidden">Eliminar</button>
+            <div class="modal__actions">
+              <button type="button" class="button button--ghost" id="task-cancel">Cancelar</button>
+              <button type="submit" class="button">Guardar</button>
+            </div>
+          </footer>
+        </form>
+      </div>
+    </div>
+
 <!doctype html>
 <html lang="es">
   <head>
@@ -19,5 +166,6 @@
   <body class="bg-slate-100">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
   </body>
 </html>
