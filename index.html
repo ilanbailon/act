@@ -1,182 +1,209 @@
-
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#2563eb" />
-    <title>Task Planner</title>
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" type="image/svg+xml" href="/icon-192.svg" />
-    <link rel="stylesheet" href="./style.css" />
-    <script type="module" src="./js/app.js" defer></script>
+    <title>Actívate – Planificador y Pomodoro personal</title>
+    <meta
+      name="description"
+      content="Gestor sencillo de tareas, ideas y temporizador Pomodoro. Todo funciona en tu navegador y se guarda en localStorage."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="main.js"></script>
   </head>
   <body>
-    <div class="app hidden">
-      <header class="app__header">
-        <h1 class="app__title">Task Planner</h1>
-        <div class="app__status" id="session-info"></div>
-      </header>
-
-      <nav class="tabs hidden" id="view-tabs" aria-label="Secciones">
-        <button class="tabs__button tabs__button--active" data-view="today">Hoy</button>
-        <button class="tabs__button" data-view="week">Semana</button>
-        <button class="tabs__button" data-view="all">Todas</button>
-      </nav>
-
-      <main id="view-container" class="view" aria-live="polite">
-        <p class="muted">Cargando...</p>
-      </main>
-    </div>
-
-    <section id="auth-panel" class="panel hidden" aria-live="polite">
-      <h2>Ingresa a tu cuenta</h2>
-      <form id="auth-login" class="form">
-        <label>
-          Correo electrónico
-          <input type="email" name="email" autocomplete="email" required />
-        </label>
-        <label>
-          Contraseña
-          <input type="password" name="password" autocomplete="current-password" required />
-        </label>
-        <button type="submit" class="button">Entrar</button>
-      </form>
-      <form id="auth-register" class="form">
-        <h3>¿Aún no tienes cuenta?</h3>
-        <label>
-          Correo electrónico
-          <input type="email" name="email" autocomplete="email" required />
-        </label>
-        <label>
-          Contraseña
-          <input type="password" name="password" autocomplete="new-password" minlength="6" required />
-        </label>
-        <button type="submit" class="button button--ghost">Crear cuenta</button>
-      </form>
-      <form id="auth-magic" class="form">
-        <h3>Enviarme enlace mágico</h3>
-        <label>
-          Correo electrónico
-          <input type="email" name="email" autocomplete="email" required />
-        </label>
-        <button type="submit" class="button button--ghost">Enviar enlace</button>
-      </form>
-    </section>
-
-    <section id="offline-banner" class="offline hidden" role="status">
-      <strong>Sin conexión.</strong> La aplicación está en modo solo lectura.
-    </section>
-
-    <div id="toast" class="toast hidden" role="status" aria-live="assertive"></div>
-
-    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="modal__content">
-        <header class="modal__header">
-          <h2 id="modal-title">Tarea</h2>
-          <button type="button" id="modal-close" class="modal__close" aria-label="Cerrar">×</button>
-        </header>
-        <form id="task-form" class="form form--grid">
-          <input type="hidden" name="id" />
-          <label>
-            Título
-            <input type="text" name="title" required />
-          </label>
-          <label>
-            Proyecto
-            <input type="text" name="project" placeholder="General" />
-          </label>
-          <label>
-            Nota
-            <textarea name="note" rows="3" placeholder="Detalles"></textarea>
-          </label>
-          <label>
-            Tipo
-            <select name="type">
-              <option value="quick">Quick</option>
-              <option value="normal">Normal</option>
-            </select>
-          </label>
-          <label>
-            Estado
-            <select name="status">
-              <option value="todo">Por hacer</option>
-              <option value="doing">En progreso</option>
-              <option value="done">Completa</option>
-              <option value="blocked">Bloqueada</option>
-            </select>
-          </label>
-          <label>
-            Prioridad
-            <select name="priority">
-              <option value="2">Alta</option>
-              <option value="1">Media</option>
-              <option value="0">Baja</option>
-            </select>
-          </label>
-          <label>
-            Bloques estimados
-            <input type="number" name="estimate_blocks" min="0" step="1" value="0" />
-          </label>
-          <label>
-            Progreso (%)
-            <input type="number" name="progress" min="0" max="100" step="1" value="0" />
-          </label>
-          <label>
-            Fecha objetivo
-            <input type="date" name="target_date" />
-          </label>
-          <label>
-            Fecha programada
-            <input type="date" name="scheduled_date" />
-          </label>
-          <label>
-            Vence el
-            <input type="datetime-local" name="due_at" />
-          </label>
-          <footer class="modal__footer">
-            <button type="button" id="task-delete" class="button button--danger hidden">Eliminar</button>
-            <div class="modal__actions">
-              <button type="button" class="button button--ghost" id="task-cancel">Cancelar</button>
-              <button type="submit" class="button">Guardar</button>
-            </div>
-          </footer>
-        </form>
+    <header class="app-header">
+      <div class="brand">
+        <h1>Actívate</h1>
+        <p>Tu tablero personal para planear el día, ordenar ideas y enfocarte con Pomodoro.</p>
       </div>
-    </div>
+      <nav class="app-nav" aria-label="Navegación principal">
+        <button class="nav-button" data-scroll="#panel-tareas">Pendientes</button>
+        <button class="nav-button" data-scroll="#panel-foco">Pomodoro</button>
+        <button class="nav-button" data-scroll="#panel-ideas">Ideas</button>
+        <button class="nav-button" data-scroll="#panel-resumen">Resumen</button>
+      </nav>
+    </header>
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
+    <main class="layout">
+      <section class="panel panel--primary" id="panel-tareas">
+        <header class="panel__header">
+          <div>
+            <h2>Planificador semanal</h2>
+            <p>Captura tareas rápidas, asígnalas a una lista y mantén visible cuántos pomodoros necesitas.</p>
+          </div>
+          <div class="stats" id="stats-tareas" aria-live="polite"></div>
+        </header>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml" />
-    <title>ACT Planner</title>
-  </head>
-  <body class="bg-slate-950 text-slate-100">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+        <form class="form" id="form-tarea" autocomplete="off">
+          <fieldset class="form__grid">
+            <label>
+              <span>Tarea</span>
+              <input type="text" name="title" placeholder="Preparar reunión con el equipo" required />
+            </label>
+            <label>
+              <span>Lista</span>
+              <select name="status" required>
+                <option value="today">Hoy</option>
+                <option value="week">Esta semana</option>
+                <option value="later">Más adelante</option>
+              </select>
+            </label>
+            <label>
+              <span>Vence</span>
+              <input type="date" name="due" />
+            </label>
+            <label>
+              <span>Pomodoros estimados</span>
+              <input type="number" name="estimate" min="1" max="8" value="1" />
+            </label>
+            <label class="form__full">
+              <span>Notas</span>
+              <textarea name="notes" rows="2" placeholder="Puntos a tratar, enlaces, ideas..."></textarea>
+            </label>
+          </fieldset>
+          <div class="form__actions">
+            <label class="checkbox">
+              <input type="checkbox" name="priority" />
+              <span>Marcar como importante</span>
+            </label>
+            <button class="button" type="submit">Agregar tarea</button>
+          </div>
+        </form>
 
+        <div class="board" role="list" aria-live="polite">
+          <section class="column" data-status="today">
+            <header class="column__header">
+              <h3>Hoy</h3>
+              <button class="column__clear" data-clear="today" type="button">Limpiar completadas</button>
+            </header>
+            <div class="task-list" data-list="today"></div>
+          </section>
+          <section class="column" data-status="week">
+            <header class="column__header">
+              <h3>Esta semana</h3>
+              <button class="column__clear" data-clear="week" type="button">Limpiar completadas</button>
+            </header>
+            <div class="task-list" data-list="week"></div>
+          </section>
+          <section class="column" data-status="later">
+            <header class="column__header">
+              <h3>Más adelante</h3>
+              <button class="column__clear" data-clear="later" type="button">Limpiar completadas</button>
+            </header>
+            <div class="task-list" data-list="later"></div>
+          </section>
+        </div>
+      </section>
 
-    <link rel="manifest" href="/manifest.webmanifest" />
+      <section class="panel" id="panel-foco">
+        <header class="panel__header">
+          <div>
+            <h2>Sesiones de enfoque</h2>
+            <p>Elige una tarea, activa el temporizador Pomodoro y descansa a intervalos saludables.</p>
+          </div>
+          <div class="active-task" id="tarea-activa" aria-live="polite"></div>
+        </header>
 
+        <div class="timer" role="timer" aria-live="polite">
+          <p class="timer__mode" id="timer-mode">Listo para comenzar</p>
+          <p class="timer__display" id="timer-display">25:00</p>
+          <div class="timer__controls">
+            <button class="button" id="btn-start" type="button">Iniciar</button>
+            <button class="button button--ghost" id="btn-pause" type="button" disabled>Pausar</button>
+            <button class="button button--ghost" id="btn-reset" type="button" disabled>Reiniciar</button>
+          </div>
+        </div>
 
-    <link rel="manifest" href="/manifest.webmanifest" />
+        <form class="form form--compact" id="form-config">
+          <fieldset class="form__grid form__grid--compact">
+            <label>
+              <span>Enfoque (min)</span>
+              <input type="number" name="focus" min="5" max="60" value="25" />
+            </label>
+            <label>
+              <span>Descanso corto</span>
+              <input type="number" name="short" min="3" max="30" value="5" />
+            </label>
+            <label>
+              <span>Descanso largo</span>
+              <input type="number" name="long" min="5" max="45" value="15" />
+            </label>
+            <label>
+              <span>Ciclos antes del largo</span>
+              <input type="number" name="cycles" min="2" max="8" value="4" />
+            </label>
+          </fieldset>
+          <div class="form__actions">
+            <button class="button button--ghost" type="reset">Restaurar</button>
+            <button class="button" type="submit">Guardar cambios</button>
+          </div>
+        </form>
 
+        <section class="log" aria-live="polite">
+          <header class="log__header">
+            <h3>Registro diario</h3>
+            <button class="button button--ghost button--small" id="btn-limpiar-log" type="button">Vaciar registro</button>
+          </header>
+          <ul class="log__list" id="lista-log"></ul>
+        </section>
+      </section>
 
-    <link rel="manifest" href="/manifest.webmanifest" />
+      <section class="panel panel--accent" id="panel-ideas">
+        <header class="panel__header">
+          <div>
+            <h2>Banco de ideas</h2>
+            <p>Captura referencias, inspiraciones o pendientes sin fecha. Pínchalos para mantenerlos arriba.</p>
+          </div>
+        </header>
 
-    <link rel="manifest" href="/manifest.json" />
+        <form class="form" id="form-idea" autocomplete="off">
+          <fieldset class="form__grid">
+            <label class="form__full">
+              <span>Título</span>
+              <input type="text" name="title" placeholder="Nueva campaña en redes" required />
+            </label>
+            <label class="form__full">
+              <span>Detalle</span>
+              <textarea name="content" rows="3" placeholder="Puntos clave, enlaces o recursos para revisar."></textarea>
+            </label>
+          </fieldset>
+          <div class="form__actions">
+            <label class="checkbox">
+              <input type="checkbox" name="pin" />
+              <span>Fijar al inicio</span>
+            </label>
+            <button class="button" type="submit">Guardar idea</button>
+          </div>
+        </form>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task PWA</title>
-  </head>
-  <body class="bg-slate-100">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+        <div class="idea-list" id="lista-ideas" aria-live="polite"></div>
+      </section>
 
+      <section class="panel" id="panel-resumen">
+        <header class="panel__header">
+          <div>
+            <h2>Resumen de progreso</h2>
+            <p>Visualiza cuántas tareas completaste, los pomodoros acumulados y las ideas pendientes.</p>
+          </div>
+        </header>
+        <div class="summary" id="resumen"></div>
+      </section>
+    </main>
 
+    <footer class="footer">
+      <p>
+        Todo se guarda automáticamente en este navegador. Puedes exportar tu información desde el menú del resumen y
+        reiniciar cuando quieras.
+      </p>
+      <button class="button button--ghost" id="btn-exportar" type="button">Exportar datos</button>
+      <button class="button button--ghost" id="btn-restaurar" type="button">Borrar todo</button>
+    </footer>
   </body>
 </html>

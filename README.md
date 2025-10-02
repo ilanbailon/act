@@ -1,104 +1,37 @@
+# Actívate
 
-# ACT Planner
+Aplicación web ligera para organizar tareas, ideas y sesiones Pomodoro directamente en el navegador. Funciona 100 % con HTML, CSS y JavaScript vanilla, por lo que puedes desplegarla en Netlify u otro hosting estático sin procesos de build.
 
-PWA mínima creada con React + Vite + TypeScript + Tailwind que consume Supabase usando `supabase-js` v2. Implementa autenticación por correo (contraseña o magic link) y gestiona una tabla `public.tasks` con RLS donde cada usuario sólo accede a sus registros.
+## Características principales
 
-## Requisitos
+- **Planificador semanal:** columnas para "Hoy", "Esta semana" y "Más adelante" con prioridad, notas y seguimiento de pomodoros por tarea.
+- **Temporizador Pomodoro integrado:** configura duraciones de enfoque y descansos, registra tus sesiones y vincula tareas activas.
+- **Banco de ideas:** guarda notas rápidas, fíjalas en la parte superior y mantenlas separadas de la lista de pendientes.
+- **Resumen y exportación:** consulta métricas clave y descarga una copia de seguridad en JSON. Toda la información vive en `localStorage`.
 
-1. Configura las variables de entorno en un archivo `.env` o en Netlify/Vercel:
-
-```bash
-VITE_SUPABASE_URL="https://wbzxbfqowlfmmkwqeyam.supabase.co"
-VITE_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndienhiZnFvd2xmbW1rd3FleWFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5ODUwMDQsImV4cCI6MjA3MjU2MTAwNH0.mJJ7yID73tUerWE_aiNw3ZE4o-Q9YrT39YN-iS2CksA"
-```
-
-2. Instala dependencias y levanta el entorno local:
-
-```bash
-npm install
-npm run dev
-```
-
-3. Para generar la build de producción y previsualizarla:
-
-```bash
-npm run build
-npm run preview
-```
-
-## Funcionalidades
-
-- **Auth**: Inicio de sesión con correo/contraseña, registro y magic link. La sesión se persiste y se redirige automáticamente al dashboard.
-- **Today**: Muestra tareas programadas para hoy o rápidas sin fecha. Permite marcar como done, ciclar estado y editar con modal.
-- **Week**: Calendario semanal (lunes a domingo) con drag & drop para reprogramar tareas; las tareas sin fecha aparecen en un backlog.
-- **All Tasks**: Buscador y filtros por estado, proyecto y prioridad. Modal para crear/editar, opción para borrar tareas.
-- **PWA**: Manifest, service worker estático y modo oscuro con Tailwind.
-
-## Estructura principal
+## Estructura del proyecto
 
 ```
-src/
-├── App.tsx
-├── components/
-├── hooks/
-├── lib/
-├── pages/
-├── providers/
-├── utils/
-└── main.tsx
+.
+├── index.html   # Layout principal y accesibilidad
+├── style.css    # Estilos con enfoque oscuro y componentes reutilizables
+└── main.js      # Lógica del planificador, ideas y temporizador
 ```
 
-Los comentarios clave dentro del código indican qué campos ajustar si cambian los nombres en Supabase.
+## Uso local
 
+1. Clona el repositorio o descarga los archivos.
+2. Abre `index.html` en tu navegador preferido. No necesitas servidor ni dependencias extra.
+3. Personaliza textos, colores o lógica editando directamente los archivos.
 
-# Task Planner PWA (HTML + CSS + JS)
+## Despliegue en Netlify (plan gratuito)
 
-Aplicación de tareas mínima construida con HTML, CSS y JavaScript vanilla que usa Supabase para autenticación y almacenamiento. Incluye vistas de Hoy, Semana (con drag & drop) y Todas las tareas, más un modal para crear/editar.
+1. Crea un nuevo sitio desde Git o arrastra la carpeta al panel de Netlify.
+2. Deja en blanco el comando de build y usa la carpeta raíz (`/`) como directorio de publicación.
+3. Publica y listo. Cada navegador mantiene sus propios datos gracias a `localStorage`.
 
-## Uso rápido
+## Mantenimiento de datos
 
-1. Abre `index.html` en un servidor estático (por ejemplo `npx serve` o la previsualización de Netlify). La aplicación es un módulo ES que carga `@supabase/supabase-js` desde CDN.
-2. Inicia sesión con email/contraseña, regístrate o solicita un enlace mágico.
-3. Gestiona tus tareas en las tres vistas disponibles. El service worker mantiene una copia en caché para lectura offline.
-
-## Supabase
-
-Los valores de `SUPABASE_URL` y `SUPABASE_ANON_KEY` están incrustados en `js/supabaseClient.js`. Si cambias de proyecto solo actualiza esas constantes.
-
-La tabla `public.tasks` debe existir con las columnas descritas y RLS que limite a `user_id = auth.uid()`. El frontend siempre inserta `user_id` a partir de la sesión activa.
-
-## Funcionalidades principales
-
-- **Hoy:** muestra tareas programadas para la fecha actual o tipo `quick` sin fecha, ordenadas por prioridad y urgencia.
-- **Semana:** cuadrícula lunes-domingo con arrastrar y soltar para mover tareas entre días o a “Sin programar”.
-- **Todas:** buscador y filtros por estado, prioridad y proyecto. Botón para crear nueva tarea.
-- **Urgencia:** `bandColor` y `computeCountdown` calculan banda y cuenta regresiva para `due_at`.
-- **PWA:** `manifest.webmanifest` y `sw.js` cachean assets y permiten lectura básica sin conexión.
-- **Toasts:** feedback simple para éxito o errores de Supabase.
-
-No hay dependencias ni paso de build; basta con desplegar el contenido del repositorio en cualquier hosting estático.
-
-# Task Planner PWA
-
-Aplicación React + Vite + TypeScript que gestiona tareas sincronizadas con Supabase.
-
-## Configuración
-
-1. Copia `.env.example` a `.env` y define:
-   ```bash
-   VITE_SUPABASE_URL="https://wbzxbfqowlfmmkwqeyam.supabase.co"
-   VITE_SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndienhiZnFvd2xmbW1rd3FleWFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5ODUwMDQsImV4cCI6MjA3MjU2MTAwNH0.mJJ7yID73tUerWE_aiNw3ZE4o-Q9YrT39YN-iS2CksA"
-   ```
-2. Instala dependencias: `npm install`.
-3. Ejecuta en desarrollo: `npm run dev`.
-4. Compila para producción: `npm run build`.
-
-## Características
-
-- Autenticación con Supabase (email, registro y magic link).
-- Vistas: Hoy, Semana con drag & drop y Todas las tareas con filtros.
-- CRUD completo sobre `public.tasks` respetando RLS.
-- PWA básica con `manifest.json` y `sw.js` para modo offline.
-- React Query para manejo de datos y Tailwind CSS para estilos rápidos.
-
-
+- Usa el botón **Exportar datos** del pie de página para descargar un respaldo en JSON.
+- El botón **Borrar todo** restablece tareas, ideas, configuraciones y registro.
+- Si quieres migrar tu información a otro navegador, importa el JSON desde `localStorage` manualmente o adapta el script según tus necesidades.
