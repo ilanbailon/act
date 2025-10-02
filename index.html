@@ -1,182 +1,196 @@
-
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#2563eb" />
-    <title>Task Planner</title>
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" type="image/svg+xml" href="/icon-192.svg" />
-    <link rel="stylesheet" href="./style.css" />
-    <script type="module" src="./js/app.js" defer></script>
+    <title>Actívate - Organiza tus pendientes</title>
+    <meta
+      name="description"
+      content="Una página sencilla para mantener tus metas claras y convertir tus pendientes en acciones concretas."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="main.js"></script>
   </head>
   <body>
-    <div class="app hidden">
-      <header class="app__header">
-        <h1 class="app__title">Task Planner</h1>
-        <div class="app__status" id="session-info"></div>
-      </header>
-
-      <nav class="tabs hidden" id="view-tabs" aria-label="Secciones">
-        <button class="tabs__button tabs__button--active" data-view="today">Hoy</button>
-        <button class="tabs__button" data-view="week">Semana</button>
-        <button class="tabs__button" data-view="all">Todas</button>
+    <header class="hero" id="inicio">
+      <nav class="topbar">
+        <span class="brand">Actívate</span>
+        <div class="topbar__actions">
+          <button class="button button--ghost" data-scroll-to="#contacto">Contacto</button>
+          <button class="button" data-scroll-to="#demo">Ver demo</button>
+        </div>
       </nav>
-
-      <main id="view-container" class="view" aria-live="polite">
-        <p class="muted">Cargando...</p>
-      </main>
-    </div>
-
-    <section id="auth-panel" class="panel hidden" aria-live="polite">
-      <h2>Ingresa a tu cuenta</h2>
-      <form id="auth-login" class="form">
-        <label>
-          Correo electrónico
-          <input type="email" name="email" autocomplete="email" required />
-        </label>
-        <label>
-          Contraseña
-          <input type="password" name="password" autocomplete="current-password" required />
-        </label>
-        <button type="submit" class="button">Entrar</button>
-      </form>
-      <form id="auth-register" class="form">
-        <h3>¿Aún no tienes cuenta?</h3>
-        <label>
-          Correo electrónico
-          <input type="email" name="email" autocomplete="email" required />
-        </label>
-        <label>
-          Contraseña
-          <input type="password" name="password" autocomplete="new-password" minlength="6" required />
-        </label>
-        <button type="submit" class="button button--ghost">Crear cuenta</button>
-      </form>
-      <form id="auth-magic" class="form">
-        <h3>Enviarme enlace mágico</h3>
-        <label>
-          Correo electrónico
-          <input type="email" name="email" autocomplete="email" required />
-        </label>
-        <button type="submit" class="button button--ghost">Enviar enlace</button>
-      </form>
-    </section>
-
-    <section id="offline-banner" class="offline hidden" role="status">
-      <strong>Sin conexión.</strong> La aplicación está en modo solo lectura.
-    </section>
-
-    <div id="toast" class="toast hidden" role="status" aria-live="assertive"></div>
-
-    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="modal__content">
-        <header class="modal__header">
-          <h2 id="modal-title">Tarea</h2>
-          <button type="button" id="modal-close" class="modal__close" aria-label="Cerrar">×</button>
-        </header>
-        <form id="task-form" class="form form--grid">
-          <input type="hidden" name="id" />
-          <label>
-            Título
-            <input type="text" name="title" required />
-          </label>
-          <label>
-            Proyecto
-            <input type="text" name="project" placeholder="General" />
-          </label>
-          <label>
-            Nota
-            <textarea name="note" rows="3" placeholder="Detalles"></textarea>
-          </label>
-          <label>
-            Tipo
-            <select name="type">
-              <option value="quick">Quick</option>
-              <option value="normal">Normal</option>
-            </select>
-          </label>
-          <label>
-            Estado
-            <select name="status">
-              <option value="todo">Por hacer</option>
-              <option value="doing">En progreso</option>
-              <option value="done">Completa</option>
-              <option value="blocked">Bloqueada</option>
-            </select>
-          </label>
-          <label>
-            Prioridad
-            <select name="priority">
-              <option value="2">Alta</option>
-              <option value="1">Media</option>
-              <option value="0">Baja</option>
-            </select>
-          </label>
-          <label>
-            Bloques estimados
-            <input type="number" name="estimate_blocks" min="0" step="1" value="0" />
-          </label>
-          <label>
-            Progreso (%)
-            <input type="number" name="progress" min="0" max="100" step="1" value="0" />
-          </label>
-          <label>
-            Fecha objetivo
-            <input type="date" name="target_date" />
-          </label>
-          <label>
-            Fecha programada
-            <input type="date" name="scheduled_date" />
-          </label>
-          <label>
-            Vence el
-            <input type="datetime-local" name="due_at" />
-          </label>
-          <footer class="modal__footer">
-            <button type="button" id="task-delete" class="button button--danger hidden">Eliminar</button>
-            <div class="modal__actions">
-              <button type="button" class="button button--ghost" id="task-cancel">Cancelar</button>
-              <button type="submit" class="button">Guardar</button>
-            </div>
-          </footer>
-        </form>
+      <div class="hero__content">
+        <p class="hero__eyebrow">Tu lista de pendientes, sin complicaciones</p>
+        <h1 class="hero__title">Convierte las ideas en acciones concretas</h1>
+        <p class="hero__description">
+          Diseñamos un flujo sencillo para ayudarte a separar metas, planificar la semana y no olvidar lo
+          importante. Todo se ejecuta en el navegador, sin bases de datos externas.
+        </p>
+        <div class="hero__cta">
+          <button class="button" data-scroll-to="#plan">Comenzar ahora</button>
+          <button class="button button--ghost" data-scroll-to="#faq">Preguntas frecuentes</button>
+        </div>
       </div>
-    </div>
+      <div class="hero__card" id="demo">
+        <h2 class="card__title">Planificador rápido</h2>
+        <form class="card__form" id="demo-form">
+          <label>
+            <span>Meta principal</span>
+            <input type="text" name="goal" placeholder="Lanzar mi portafolio web" required />
+          </label>
+          <label>
+            <span>Primer paso</span>
+            <input type="text" name="step" placeholder="Elegir plantilla y colores" required />
+          </label>
+          <label>
+            <span>Fecha objetivo</span>
+            <input type="date" name="deadline" />
+          </label>
+          <label>
+            <span>Notas</span>
+            <textarea name="notes" rows="3" placeholder="Recuerda pedir feedback a dos amigos."></textarea>
+          </label>
+          <button class="button" type="submit">Guardar borrador</button>
+        </form>
+        <div class="card__result" id="demo-result" hidden>
+          <p class="result__title">Tu plan quedó así:</p>
+          <ul class="result__list" aria-live="polite"></ul>
+          <button class="button button--ghost button--small" type="button" id="demo-reset">Crear otro</button>
+        </div>
+      </div>
+    </header>
 
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
+    <main>
+      <section class="section" id="plan">
+        <div class="section__header">
+          <h2>Un método simple en tres pasos</h2>
+          <p>Planifica tu semana con claridad para que cada día avance un poco más.</p>
+        </div>
+        <div class="grid grid--steps">
+          <article class="card">
+            <span class="card__icon">1</span>
+            <h3>Define</h3>
+            <p>Anota tus metas clave y el objetivo concreto que quieres cumplir esta semana.</p>
+          </article>
+          <article class="card">
+            <span class="card__icon">2</span>
+            <h3>Divide</h3>
+            <p>Transforma cada meta en pequeñas tareas que puedas ejecutar en menos de una hora.</p>
+          </article>
+          <article class="card">
+            <span class="card__icon">3</span>
+            <h3>Actúa</h3>
+            <p>Enfócate en la próxima acción. Marca tus avances y celebra cada paso logrado.</p>
+          </article>
+        </div>
+      </section>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml" />
-    <title>ACT Planner</title>
-  </head>
-  <body class="bg-slate-950 text-slate-100">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+      <section class="section section--alt">
+        <div class="section__header">
+          <h2>¿Por qué funciona?</h2>
+          <p>La constancia se vuelve sencilla cuando tu entorno acompaña.</p>
+        </div>
+        <div class="grid grid--reasons">
+          <article class="card card--highlight">
+            <h3>Sin configuraciones extrañas</h3>
+            <p>
+              El sitio es 100% estático. Puedes subirlo a Netlify con el plan gratuito y funcionará tal cual se ve aquí.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Diseño adaptado</h3>
+            <p>Todo luce bien en móvil y escritorio. Reutiliza este proyecto como base para tus propios contenidos.</p>
+          </article>
+          <article class="card">
+            <h3>Plantilla reusable</h3>
+            <p>Cambia textos e imágenes a tu gusto. La estructura está pensada para proyectos personales o landing pages.</p>
+          </article>
+        </div>
+      </section>
 
+      <section class="section" id="faq">
+        <div class="section__header">
+          <h2>Preguntas frecuentes</h2>
+          <p>Toda la lógica vive en el navegador. No necesitas backend ni librerías externas.</p>
+        </div>
+        <div class="accordion" id="faq-list">
+          <article class="accordion__item">
+            <button class="accordion__trigger" type="button">
+              ¿Necesito instalar algo para usarlo?
+              <span aria-hidden="true">+</span>
+            </button>
+            <div class="accordion__content" hidden>
+              <p>
+                No. Solo sube estos archivos a Netlify o tu hosting favorito. No hay dependencias ni procesos de build, así que la
+                publicación es inmediata.
+              </p>
+            </div>
+          </article>
+          <article class="accordion__item">
+            <button class="accordion__trigger" type="button">
+              ¿Puedo personalizar colores y textos?
+              <span aria-hidden="true">+</span>
+            </button>
+            <div class="accordion__content" hidden>
+              <p>
+                Sí. Abre <code>style.css</code> para editar la paleta o ajusta el HTML. Todo está comentado para que entiendas qué
+                hace cada sección.
+              </p>
+            </div>
+          </article>
+          <article class="accordion__item">
+            <button class="accordion__trigger" type="button">
+              ¿Qué pasa con mis datos?
+              <span aria-hidden="true">+</span>
+            </button>
+            <div class="accordion__content" hidden>
+              <p>
+                La información del formulario se mantiene en el navegador. Puedes copiarla, imprimirla o borrarla cuando quieras con
+                el botón “Crear otro”.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
 
-    <link rel="manifest" href="/manifest.webmanifest" />
+      <section class="section section--alt" id="contacto">
+        <div class="section__header">
+          <h2>¿Listo para publicar?</h2>
+          <p>
+            Rellena el formulario y envíate un recordatorio con tu plan. También puedes duplicar el proyecto para otras ideas.
+          </p>
+        </div>
+        <form class="contact" id="contact-form">
+          <label>
+            <span>Nombre</span>
+            <input type="text" name="name" placeholder="Tu nombre" required />
+          </label>
+          <label>
+            <span>Correo electrónico</span>
+            <input type="email" name="email" placeholder="hola@ejemplo.com" required />
+          </label>
+          <label class="contact__full">
+            <span>Mensaje</span>
+            <textarea name="message" rows="4" placeholder="Comparte tu objetivo y los próximos pasos."></textarea>
+          </label>
+          <div class="contact__actions">
+            <button class="button" type="submit">Enviarme recordatorio</button>
+            <span class="contact__status" id="contact-status" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </section>
+    </main>
 
-
-    <link rel="manifest" href="/manifest.webmanifest" />
-
-
-    <link rel="manifest" href="/manifest.webmanifest" />
-
-    <link rel="manifest" href="/manifest.json" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task PWA</title>
-  </head>
-  <body class="bg-slate-100">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-
-
+    <footer class="footer">
+      <p>Hecho con HTML, CSS y JavaScript vanilla. Puedes modificarlo y publicarlo donde quieras.</p>
+      <button class="button button--small" data-scroll-to="#inicio">Volver arriba</button>
+    </footer>
   </body>
 </html>
